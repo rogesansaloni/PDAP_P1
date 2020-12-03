@@ -13,9 +13,9 @@ for i = 1:meta_rows
     if ~(searchForErrors(audio_name, errors))
         new_audio_name = strrep(audio_name,"audio/","");
         path_audio = strcat("../Ficheros/Audios/",new_audio_name);
-        audio_category = meta(i,2).Var2;
-        path_foler = strcat("../Ficheros/Categorias/",audio_category);
-        movefile(path_audio, path_foler);
+        audio_catego
+        path_foler = strcat("../Ficheros/Categorias/",new_audio_name);
+        movefile(path_audio, folderNew)
     end
         
 end
