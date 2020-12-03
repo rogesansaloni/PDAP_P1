@@ -9,10 +9,12 @@ for i = 1:length(categories)
 end
 for i = 1:length(meta)
     audio_name = meta(i).Var1;
-    dir audio_name.m
-    if audio_name = 
+    if ~(searchForErrors(audio_name, errors))
+        replace(audio_name,"audio/","");
+        audio_name
+    end
+        
 end
-dir ../Ficheros/Audios/audios1
 %for i = 1:
 %filename = cell2mat(T{r,1});
 %category = cell2mat(T{r,2});
