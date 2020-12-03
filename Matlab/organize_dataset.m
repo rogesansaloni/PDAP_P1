@@ -2,3 +2,9 @@
 % una funció de tipus script de Matlab que anomenareu organize_dataset.m, i que s’encarregarà
 % d’automatitzar el procés d’assignar els fitxers d’àudio en subcarpetes (1 subcarpeta per
 % categoria)
+T = readtable('..\Ficheros\meta.txt','Delimiter','\t','ReadVariableNames',false);
+%obtenemos todas las categorías
+categories = unique(T{:,2});
+
+filename = cell2mat(T{r,1});
+category = cell2mat(T{r,2});
