@@ -1,8 +1,8 @@
 %leemos el archivo meta.txt y error.txt
-meta = readtable('..\Ficheros\meta.txt','Delimiter','\t','ReadVariableNames',false);
+meta = readtable('../Ficheros/meta.txt','Delimiter','\t','ReadVariableNames',false);
 meta(:,2).Var2 = replace(meta(:,2).Var2,"cafe/restaurant","cafe-restaurant");
-errors = readtable('..\Ficheros\error.txt','Delimiter','\t','ReadVariableNames',false);
-%obtenemos todas las categorías
+errors = readtable('../Ficheros/error.txt','Delimiter','\t','ReadVariableNames',false);
+%obtenemos todas las categorï¿½as
 categories = unique(meta{:,2});
 mkdir ../Ficheros Categorias
 for i = 1:length(categories)
