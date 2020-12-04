@@ -10,11 +10,11 @@ for i = 1:length(categories)
 end
 [meta_rows, meta_columns] = size(meta);
 for i = 1:meta_rows
-    audio_name = meta(i,1).Var1;
+    audio_name =  cell2mat(meta{i,1});
     if ~(searchForErrors(audio_name, errors))
         new_audio_name = strrep(audio_name,"audio/","");
         old_path = strcat("../Ficheros/Audios/",new_audio_name);
-        audio_category = meta(i,2).Var2;
+        audio_category = cell2mat(meta{i,2});
         new_path = strcat("../Ficheros/Categorias/",audio_category);
         if isfile(old_path)
             movefile(old_path, new_path);
