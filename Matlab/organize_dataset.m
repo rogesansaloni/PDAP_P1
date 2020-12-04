@@ -1,5 +1,6 @@
 %leemos el archivo meta.txt y error.txt
 meta = readtable('..\Ficheros\meta.txt','Delimiter','\t','ReadVariableNames',false);
+meta(:,2).Var2 = replace(meta(:,2).Var2,"cafe/restaurant","cafe-restaurant");
 errors = readtable('..\Ficheros\error.txt','Delimiter','\t','ReadVariableNames',false);
 %obtenemos todas las categorías
 categories = unique(meta{:,2});
@@ -12,10 +13,12 @@ for i = 1:meta_rows
     audio_name = meta(i,1).Var1;
     if ~(searchForErrors(audio_name, errors))
         new_audio_name = strrep(audio_name,"audio/","");
-        path_audio = strcat("../Ficheros/Audios/",new_audio_name);
+        old_path = strcat("../Ficheros/Audios/",new_audio_name);
         audio_category = meta(i,2).Var2;
-        path_foler = strcat("../Ficheros/Categorias/",audio_category);
-        movefile(path_audio, path_foler);
+        new_path = strcat("../Ficheros/Categorias/",audio_category);
+        if isfile(old_path)
+            movefile(old_path, new_path);
+        end
     end
         
 end
