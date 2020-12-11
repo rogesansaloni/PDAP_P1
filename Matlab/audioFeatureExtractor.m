@@ -22,7 +22,5 @@ function aFE = audioFeatureExtractor (path_senal)
     plot(t,features(:,idx.pitch))
     title('Pitch')
     xlabel('Time (s)')
-    ylabel('Frequency (Hz)')
-    
-    
+    ylabel('Frequency (Hz)')  
 end
