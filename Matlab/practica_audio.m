@@ -10,16 +10,14 @@ ads = audioDatastore('../PDAP_P1/Ficheros/Categorias/car', 'IncludeSubfolders',t
 
 %ads.Files devuelve el nombre de los N ficheros
 
+%La funcion tall crea un array con los N audios, pero no los evaluará hasta
+%que sea necesario.
+adsTall = tall(ads);
 
 %La funcion splitEachLabel permite dividir en subcolecciones. Recomendable
 %hacer pruebas cogiendo solo 5l 5% o 10% de los datos para ir mas rapido,
 %dividiendo con esta funcion
 [ads1, ads2, ads3, ads4] = splitEachLabel(ads,0.25,0.25,0.25);
 
-%La funcion tall crea un array con los N audios, pero no los evaluará hasta
-%que sea necesario.
-adsTall = tall(ads);
 
-
-adsTall1 = tall(ads1);
 

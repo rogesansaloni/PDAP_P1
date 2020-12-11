@@ -1,31 +1,28 @@
-function aFE = audioFeatureExtractor (senal)
+function aFE = audioFeatureExtractor (path_senal)
     %Usada para definit los atributos que analizaremos de los audios de
     %entrada.
-
+    [audioInput, fs] = audioread(path_senal);
+    Ov = 0.9;
     %Se definen (inventan) los valores de longitud de la trama y numero de
     %muestras solapadas 
-    fs = 8000;
-    Ov = 0.9;
+    aFE = audioFeatureExtractor( ...
+    "SampleRate",fs, ...
+    "Window",hamming(round(0.03*fs),"periodic"), ...
+    "OverlapLength",round(0.02*fs), ...
+    "mfcc",true, ...
+    "mfccDelta",true, ...
+    "mfccDeltaDelta",true, ...
+    "pitch",true, ...
+    "spectralCentroid",true);
 
-    y = fft(senal);
+    features = extract(aFE, audioInput);
+    idx = info(aFE);
+    
+    t = linspace(0,size(audioInput,1)/fs,size(features,1));
+    plot(t,features(:,idx.pitch))
+    title('Pitch')
+    xlabel('Time (s)')
+    ylabel('Frequency (Hz)')
     
     
-end
-
-function calculatespectogram(Tw, Ov, fs, senal)
-i = Tw * senal.fs;
-j = i*Ov;
-nfft = round(i);
-noverlap = round(j);
-ventana = rectwin(nfft);
-[S, F, T] = spectrogram (senal.x, ventana, noverlap, nfft, fs);
-imagesc(T,F,20*log(abs(S)));
-xlabel('Tiempo (seg)');
-ylabel('Frecuencia (Hz)');
-set(gca,'ydir','normal');
-end
-
-function [S] = calculateMelSpectogram (fs, senal)
-
-    [S] = melSpectogram(senal, fs);
 end
