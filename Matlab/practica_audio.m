@@ -18,6 +18,7 @@ featuresTall = cellfun(@(x)extract(aFE,x),adsTall1, "UniformOutput", false);
 features = gather(featuresTall);
 %Longitud N, array de un campo solo con las etiquetas de los N ficheros
 labels = ads1.Labels;
+
 %features es un cell array de N posiciones (numero de ficheros de la bbdd ads)
 %en cada celda tiene una matriz de atributos
 %La dimension de este array es de MxR
@@ -42,8 +43,17 @@ for i = 1:4
         %vectores categoricos (learnGT, testGT) MEDIANTE CONCATENACION y
         %REPL. ETIQUETAS (es decir, todas las labels, no eliminar las
         %repetidas)
+    
+       %INTENTO: (aun no funciona)
+        [learn, test] = splitEachLabel(ads1,0.5);
         
+        learnTall1 = tall(learn);
         
+        featuresTall = cellfun(@(x)extract(aFE,x),learnTall1, "UniformOutput", false);
+        features = gather(featuresTall);
+        %Longitud N, array de un campo solo con las etiquetas de los N ficheros
+        labels = learn.Labels;
+        disp (length(labels));
     %3- entrenamiento de un clasificador (ELEGIR SOLO UNO, IR CAMBIANDO) con learnDB y learnGT
     
     %4-Clasificacion de testDB con el mismo método de clasificacion
