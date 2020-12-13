@@ -1,4 +1,4 @@
-function aFE = aFE (path_senal)
+function aFE = audioFE (path_senal)
     %Usada para definir los atributos que analizaremos de los audios de
     %entrada.
     [audioInput, fs] = audioread(path_senal);
@@ -17,6 +17,7 @@ function aFE = aFE (path_senal)
 
     features = extract(aFE, audioInput);
     idx = info(aFE);
+    disp(idx);
     
     t = linspace(0,size(audioInput,1)/fs,size(features,1));
     plot(t,features(:,idx.pitch))
