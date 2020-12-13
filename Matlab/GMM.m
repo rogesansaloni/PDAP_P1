@@ -5,7 +5,7 @@ gmmModel = cell(1, length(categories));
 gmmPDF = cell(1, length(categories));
 x = 0:.1:1;
     for i = 1: length(categories)
-        gmmModel{i} = fitgmdist(X,k);
+        gmmModel{i} = fitgmdist(gather(X),k);
         gmmPDF{i} = pdf(gmmModel, x);
     end
     ypred = max (gmmPDF);
