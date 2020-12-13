@@ -1,5 +1,5 @@
 function aFE = audioFeatureExtractor (path_senal)
-    %Usada para definit los atributos que analizaremos de los audios de
+    %Usada para definir los atributos que analizaremos de los audios de
     %entrada.
     [audioInput, fs] = audioread(path_senal);
     Ov = 0.9;
