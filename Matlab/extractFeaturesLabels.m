@@ -1,4 +1,4 @@
-function [features,labels] = extractFeaturesLabels(ads)
+function [features,labels, adsSplit] = extractFeaturesLabels(ads)
     %Esta función se encarga de dividir la información del ads en 4 partes,
     %obteniendo los cell arrays y los vectores de categories de cada parte, y
     %creando el array features y labels con estos datos, respectivamente.
