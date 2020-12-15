@@ -1,7 +1,7 @@
-function ypred = KNN(X,Y, Xnew)
+function ypred = KNN(featuresLearn,labelsLearn,featuresTest)
 %Esta función aplica el clasificador KNN
 %KNN devuelve los K valores más cercanos según la distancia euclidiana
-knnModel = fitcknn(X,Y,'NumNeighbors',10,'Distance','euclidean','Standardize',1);
-ypred = predict(knnModel,Xnew);
+knnModel = fitcknn(featuresLearn, labelsLearn,'NumNeighbors',10,'Distance','euclidean','Standardize',1);
+ypred = predict(knnModel,featuresTest);
 end
 
