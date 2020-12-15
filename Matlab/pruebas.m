@@ -1,0 +1,9 @@
+z = zeros(5,1);
+z(1) = 2;
+z(2) = 3;
+z(3) = 4;
+z(4) = 5;
+z(5) = 6;
+numz = numel(z);
+z2 = repmat(z,1,20);
+z3 = reshape(z2,numz*20,1)
