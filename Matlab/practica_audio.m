@@ -8,7 +8,7 @@ p=1/n;
 %1- SEGMENTACION DE LA BBDD ENTERA:
 %features y labels contienen los arrays de atributos y vectores de categorias de las 4 particiones
 %de datos respectivamente
-[features,labels] = extractFeaturesLabels(ads1);
+%[features,labels] = extractFeaturesLabels(ads1);
 okPositions = cell(1,4);
 koPositions = cell(1,4);
 accuracy = zeros(4,1);
@@ -52,7 +52,8 @@ for k = 1:4
         end
         learnGT = learnGT.';
     %3- entrenamiento de un clasificador (ELEGIR SOLO UNO, IR CAMBIANDO) con learnDB y learnGT
-        testPred = KNN(learnDB,learnGT,testDB);
+        testPred = CART(learnDB,learnGT,testDB);
+        
     %4-Clasificacion de testDB con el mismo método de clasificacion
         %Cálculo de la Accuracy comparando las etiquetas reales (testGT) con las
         %obtenidas 
