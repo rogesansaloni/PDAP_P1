@@ -52,7 +52,7 @@ for k = 1:4
         end
         learnGT = learnGT.';
     %3- entrenamiento de un clasificador (ELEGIR SOLO UNO, IR CAMBIANDO) con learnDB y learnGT
-        testPred = CART(learnDB,learnGT,testDB);
+        testPred = GMM(learnDB,learnGT,testDB);
         
     %4-Clasificacion de testDB con el mismo método de clasificacion
         %Cálculo de la Accuracy comparando las etiquetas reales (testGT) con las
