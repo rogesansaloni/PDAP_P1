@@ -76,7 +76,7 @@ for k = 1:4
         %obtenidas 
         okPositions{i} = find(testPred==testGT);
         koPositions{i} = find(testPred~=testGT);
-        accuracy = (length(okPositions)/(length(okPositions)+length(koPositions)))*100
+        accuracy = (length(okPositions)/(length(okPositions)+length(koPositions)))*100;
     %5 - Mostrar info
        
 end
