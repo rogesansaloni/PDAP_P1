@@ -11,6 +11,7 @@ p=1/n;
 [features,labels] = extractFeaturesLabels(ads1);
 okPositions = cell(1,4);
 koPositions = cell(1,4);
+accuracy = zeros(4,1);
 nTramas = size(features{1},1) / size(labels{1},1);
 for k = 1:4
    %2- Calcular dos matrices learn y test que contengan
@@ -19,11 +20,22 @@ for k = 1:4
         %REPL. ETIQUETAS (es decir, todas las labels de TODAS LAS TRAMAS, no eliminar las
         %repetidas)
         %----------------------------------------TEST----------------------------------------------%
-        learnDB = [];
-        learnGT = [];
         testDB = [];
         testGT = [];
-
+        testDB = features{k};
+        nAudios = size(labels{k},1);
+        for n = 1: nAudios
+            input2 = labels{k}(n,:);
+            inputArray2 = [];
+            for n2 = 1:nTramas
+                inputArray2 = [inputArray2 input2];
+            end
+            testGT = [testGT inputArray2];
+        end
+        testGT = testGT.';
+        %----------------------------------------LEARN----------------------------------------------% 
+        learnDB = [];
+        learnGT = [];
         for i = 1:4
             if i ~= k
                 learnDB = [learnDB;features{i}];
@@ -36,37 +48,9 @@ for k = 1:4
                     end
                     learnGT = [learnGT inputArray]; 
                 end
-            else 
-            testDB = features{k};
-            nAudios = size(labels{k},1);
-            for n = 1: nAudios
-                input2 = labels{k}(n,:);
-                inputArray2 = [];
-                for n2 = 1:nTramas
-                    inputArray2 = [inputArray2 input2];
-                end
-                testGT = [testGT inputArray2];
-            end
+            end 
         end
-    end
-        
-        
-        
-        
-    %     testGT = labels{k};
-%         %----------------------------------------LEARN----------------------------------------------%
-%         learnDB = [];
-%         learnGT = [];
-%         for i = 1:4
-%             lengthFeature = size(features{i},1);
-%             if i ~= k
-%                 for n = 1:lengthFeature
-%                     learnDB = [learnDB; features{i}(n,:)];
-%                     learnGT = [learnGT; labels{i}(n,:)];
-%                 end
-%             end
-%         end
-       
+        learnGT = learnGT.';
     %3- entrenamiento de un clasificador (ELEGIR SOLO UNO, IR CAMBIANDO) con learnDB y learnGT
         testPred = KNN(learnDB,learnGT,testDB);
     %4-Clasificacion de testDB con el mismo método de clasificacion
@@ -74,7 +58,8 @@ for k = 1:4
         %obtenidas 
         okPositions{k} = find(testPred==testGT);
         koPositions{k} = find(testPred~=testGT);
-        accuracy = (length(okPositions)/(length(okPositions)+length(koPositions)))*100;
+        accuracy_k = (length(okPositions{k})/(length(okPositions{k})+length(koPositions{k})))*100;
+        accuracy(k) = accuracy_k;
     %5 - Mostrar info
-       
 end
+accuracy_mean = mean(accuracy);
