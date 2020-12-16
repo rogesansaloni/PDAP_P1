@@ -11,7 +11,7 @@ function [features,labels] = extractFeaturesLabels(ads)
         ads = adsSplit{i};
         adsTall = tall(ads);
         featuresTall = cellfun(@(x)extract(aFE,x),adsTall, "UniformOutput", false);
-        features{i} = gather(featuresTall);
+        features{i} = cell2mat(gather(featuresTall));
         
         labels{i} = ads.Labels;
 %         lengthFeatures = size(features{i},1);

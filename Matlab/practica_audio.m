@@ -36,21 +36,19 @@ for k = 1:4
                     end
                     learnGT = [learnGT inputArray]; 
                 end
-                
             else 
-                testDB = features{i};
-                nAudios = size(labels{i},1);
-                for n = 1: nAudios
-                    input2 = labels{i}(n,:);
-                    inputArray2 = [];
-                    for n2 = 1:nTramas
-                        inputArray2 = [inputArray2 input2];
-                    end
-                    testGT = [testGT inputArray2]; 
+            testDB = features{k};
+            nAudios = size(labels{k},1);
+            for n = 1: nAudios
+                input2 = labels{k}(n,:);
+                inputArray2 = [];
+                for n2 = 1:nTramas
+                    inputArray2 = [inputArray2 input2];
                 end
+                testGT = [testGT inputArray2];
             end
-                
         end
+    end
         
         
         
