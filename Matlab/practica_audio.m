@@ -18,7 +18,7 @@ for k = 1:4
         %REPL. ETIQUETAS (es decir, todas las labels de TODAS LAS TRAMAS, no eliminar las
         %repetidas)
         %----------------------------------------TEST----------------------------------------------%
-        testDB = features{k};
+        testDB = cell2mat(features{k});
 %         testGT = labels{k};
 %         %----------------------------------------LEARN----------------------------------------------%
 %         learnDB = [];
