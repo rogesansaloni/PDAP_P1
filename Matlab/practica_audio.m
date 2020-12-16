@@ -11,6 +11,7 @@ p=1/n;
 [features,labels] = extractFeaturesLabels(ads1);
 okPositions = cell(1,4);
 koPositions = cell(1,4);
+nTramas = size(features{1},1) / size(labels{1},1);
 for k = 1:4
    %2- Calcular dos matrices learn y test que contengan
         %Atributos de todas las tramas de todos los audios (learnDB, testDB)
@@ -18,8 +19,25 @@ for k = 1:4
         %REPL. ETIQUETAS (es decir, todas las labels de TODAS LAS TRAMAS, no eliminar las
         %repetidas)
         %----------------------------------------TEST----------------------------------------------%
-        testDB = features{k};
-%         testGT = labels{k};
+        learnDB = [];
+        learnGT = [];
+        
+        for i = 1:4
+            if i ~= k
+                learnDB = [learnDB;features{i}];
+                nAudios = size(labels{i},1);
+                for n = 1: nAudios
+                    input = labels{i}(n,:);
+                    inputArray = [];
+                    for n2 = 1:nTramas
+                        inputArray = [inputArray input];
+                    end
+                    learnGT = [learnGT inputArray]; 
+                end
+                
+            end
+        end
+    %     testGT = labels{k};
 %         %----------------------------------------LEARN----------------------------------------------%
 %         learnDB = [];
 %         learnGT = [];
