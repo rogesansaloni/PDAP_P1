@@ -74,8 +74,8 @@ for k = 1:4
     %4-Clasificacion de testDB con el mismo método de clasificacion
         %Cálculo de la Accuracy comparando las etiquetas reales (testGT) con las
         %obtenidas 
-        okPositions{i} = find(testPred==testGT);
-        koPositions{i} = find(testPred~=testGT);
+        okPositions{k} = find(testPred==testGT);
+        koPositions{k} = find(testPred~=testGT);
         accuracy = (length(okPositions)/(length(okPositions)+length(koPositions)))*100;
     %5 - Mostrar info
        
