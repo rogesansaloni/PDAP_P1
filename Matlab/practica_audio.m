@@ -21,7 +21,9 @@ for k = 1:4
         %----------------------------------------TEST----------------------------------------------%
         learnDB = [];
         learnGT = [];
-        
+        testDB = [];
+        testGT = [];
+
         for i = 1:4
             if i ~= k
                 learnDB = [learnDB;features{i}];
@@ -35,8 +37,24 @@ for k = 1:4
                     learnGT = [learnGT inputArray]; 
                 end
                 
+            else 
+                testDB = features{i};
+                nAudios = size(labels{i},1);
+                for n = 1: nAudios
+                    input2 = labels{i}(n,:);
+                    inputArray2 = [];
+                    for n2 = 1:nTramas
+                        inputArray2 = [inputArray2 input2];
+                    end
+                    testGT = [testGT inputArray2]; 
+                end
             end
+                
         end
+        
+        
+        
+        
     %     testGT = labels{k};
 %         %----------------------------------------LEARN----------------------------------------------%
 %         learnDB = [];
@@ -52,13 +70,13 @@ for k = 1:4
 %         end
        
     %3- entrenamiento de un clasificador (ELEGIR SOLO UNO, IR CAMBIANDO) con learnDB y learnGT
-        %testPred = KNN(learnDB,learnGT,testDB);
+        testPred = KNN(learnDB,learnGT,testDB);
     %4-Clasificacion de testDB con el mismo método de clasificacion
         %Cálculo de la Accuracy comparando las etiquetas reales (testGT) con las
         %obtenidas 
-%         okPositions{i} = find(testPred==testGT);
-%         koPositions{i} = find(testPred~=testGT);
-%         accuracy = (length(okPositions)/(length(okPositions)+length(koPositions)))*100
+        okPositions{i} = find(testPred==testGT);
+        koPositions{i} = find(testPred~=testGT);
+        accuracy = (length(okPositions)/(length(okPositions)+length(koPositions)))*100
     %5 - Mostrar info
        
 end
