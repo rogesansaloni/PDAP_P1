@@ -16,7 +16,7 @@ for i = 1: numCategories
     end
     gmmModel{i} = fitgmdist(data_category,k,'RegularizationValue',0.1,'CovarianceType','diagonal');
 end
-%Aplicamos cada gmmModel a cada fila de testDB, y obtenemos la m�xima
+%Aplicamos cada gmmModel a cada fila de testDB, y obtenemos la maxima
 %probabilidad para asignarle la categoria
 for n = 1:size(testDB)
     for i = 1:length(gmmModel)
