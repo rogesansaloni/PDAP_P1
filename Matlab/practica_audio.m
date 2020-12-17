@@ -55,22 +55,22 @@ for k = 1:4
             end 
         end
         learnGT = learnGT.';
-        %3- Entrenamiento con un clasificador
-        switch methodLM
-           case 'knn'
-              testPred = KNN(learnDB,learnGT,testDB,knn_K);
-              accuracy(k) = getAccuracy(testPred,testGT);
-           case 'cart'
-              testPred = CART(learnDB,learnGT,testDB);
-              accuracy(k) = getAccuracy(testPred,testGT);
-           case 'svm'
-              testPred = SVM(learnDB,learnGT,testDB);
-              accuracy(k) = getAccuracy(testPred,testGT);
-           case 'gmm'
-              [testPred,gmmPDF] = GMM(learnDB,learnGT,testDB,gmm_N);
-              accuracy(k) = getAccuracy(testPred,testGT);
-           otherwise
-              disp('Por favor, asigna uno de los métodos disponibles a la variable methodLM: knn, cart, svm o gmm.');
-        end
+    %3- Entrenamiento con un clasificador
+    switch methodLM
+       case 'knn'
+          testPred = KNN(learnDB,learnGT,testDB,knn_K);
+          accuracy(k) = getAccuracy(testPred,testGT);
+       case 'cart'
+          testPred = CART(learnDB,learnGT,testDB);
+          accuracy(k) = getAccuracy(testPred,testGT);
+       case 'svm'
+          testPred = SVM(learnDB,learnGT,testDB);
+          accuracy(k) = getAccuracy(testPred,testGT);
+       case 'gmm'
+          testPred = GMM(learnDB,learnGT,testDB,gmm_N);
+          accuracy(k) = getAccuracy(testPred,testGT);
+       otherwise
+          disp('Por favor, asigna uno de los mï¿½todos disponibles a la variable methodLM: knn, cart, svm o gmm.');
+    end
 end
 accuracy_mean = mean(accuracy);
