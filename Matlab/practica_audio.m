@@ -1,9 +1,13 @@
-%Paso 1
-ads = audioDatastore('../Ficheros/Categorias','IncludeSubfolders',true,'FileExtensions','.wav', 'LabelSource','foldernames');
-%Difinimos en cuantas n partes dividiremos la informacion
-n=20;
-p=1/n;
-[ads1, ads2] = splitEachLabel(ads,p);
+%Definicion variables
+path = '../Ficheros/Categorias';
+methodLM = 'knn';
+knn_K = 10;
+gmm_N = 2;
+percentOfDataSet = 0.05;
+%Paso 1: obtenemos el audiodatastore
+ads = audioDatastore(path,'IncludeSubfolders',true,'FileExtensions','.wav', 'LabelSource','foldernames');
+%Dividimos los datos en el procentaje especificado
+[ads1,ads2] = splitEachLabel(ads,percentOfDataSet);
 
 %1- SEGMENTACION DE LA BBDD ENTERA:
 %features y labels contienen los arrays de atributos y vectores de categorias de las 4 particiones
@@ -51,16 +55,22 @@ for k = 1:4
             end 
         end
         learnGT = learnGT.';
-    %3- entrenamiento de un clasificador (ELEGIR SOLO UNO, IR CAMBIANDO) con learnDB y learnGT
-        testPred = GMM(learnDB,learnGT,testDB);
-        
-    %4-Clasificacion de testDB con el mismo método de clasificacion
-        %Cálculo de la Accuracy comparando las etiquetas reales (testGT) con las
-        %obtenidas 
-        okPositions{k} = find(testPred==testGT);
-        koPositions{k} = find(testPred~=testGT);
-        accuracy_k = (length(okPositions{k})/(length(okPositions{k})+length(koPositions{k})))*100;
-        accuracy(k) = accuracy_k;
-    %5 - Mostrar info
+    %3- Entrenamiento con un clasificador
+    switch methodLM
+       case 'knn'
+          testPred = KNN(learnDB,learnGT,testDB,knn_K);
+          accuracy(k) = getAccuracy(testPred,testGT);
+       case 'cart'
+          testPred = CART(learnDB,learnGT,testDB);
+          accuracy(k) = getAccuracy(testPred,testGT);
+       case 'svm'
+          testPred = SVM(learnDB,learnGT,testDB);
+          accuracy(k) = getAccuracy(testPred,testGT);
+       case 'gmm'
+          testPred = GMM(learnDB,learnGT,testDB,gmm_N);
+          accuracy(k) = getAccuracy(testPred,testGT);
+       otherwise
+          disp('Por favor, asigna uno de los métodos disponibles a la variable methodLM: knn, cart, svm o gmm.');
+    end
 end
 accuracy_mean = mean(accuracy);
