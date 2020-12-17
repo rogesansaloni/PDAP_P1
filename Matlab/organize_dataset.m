@@ -9,6 +9,7 @@ for i = 1:length(categories)
     mkdir ('../Ficheros/Categorias',categories{i, 1});
 end
 [meta_rows, meta_columns] = size(meta);
+
 for i = 1:meta_rows
     audio_name =  cell2mat(meta{i,1});
     if ~(searchForErrors(audio_name, errors))
@@ -22,5 +23,5 @@ for i = 1:meta_rows
             audiowrite(new_path,x,Fs);
         end
     end
-        
+
 end
