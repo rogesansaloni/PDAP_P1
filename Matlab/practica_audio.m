@@ -72,5 +72,6 @@ for k = 1:4
        otherwise
           disp('Por favor, asigna uno de los m�todos disponibles a la variable methodLM: knn, cart, svm o gmm.');
     end
+    disp(accuracy(k));
 end
 accuracy_mean = mean(accuracy);
