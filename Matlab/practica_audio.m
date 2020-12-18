@@ -1,18 +1,18 @@
 %Definicion variables
-path = '../Ficheros/Categorias';
-methodLM = 'knn';
+path = '/Users/Sofi/Documents/Barcelona/Cuarto AnÌƒo/Clases/Procesamiento Digital del Audio y del Habla/PDAP_P1/Ficheros/Categorias';
+methodLM = 'cart';
 knn_K = 10;
 gmm_N = 2;
 percentOfDataSet = 0.05;
-%Paso 1: obtenemos el audiodatastore
+%Obtenemos el audioDatastore
 ads = audioDatastore(path,'IncludeSubfolders',true,'FileExtensions','.wav', 'LabelSource','foldernames');
 %Dividimos los datos en el procentaje especificado
 [ads1,ads2] = splitEachLabel(ads,percentOfDataSet);
 
-%1- SEGMENTACION DE LA BBDD ENTERA:
-%features y labels contienen los arrays de atributos y vectores de categorias de las 4 particiones
+%1- Segmentar la base de datos entera
+%Los features y labels son los que contienen los arrays de atributos y vectores de categorias de las 4 particiones
 %de datos respectivamente
-%[features,labels] = extractFeaturesLabels(ads1);
+[features,labels] = extractFeaturesLabels(ads1);
 okPositions = cell(1,4);
 koPositions = cell(1,4);
 accuracy = zeros(4,1);
@@ -55,7 +55,7 @@ for k = 1:4
             end 
         end
         learnGT = learnGT.';
-    %3- Entrenamiento con un clasificador
+    %3- Entrenar con un clasificador
     switch methodLM
        case 'knn'
           testPred = KNN(learnDB,learnGT,testDB,knn_K);
@@ -70,7 +70,7 @@ for k = 1:4
           testPred = GMM(learnDB,learnGT,testDB,gmm_N);
           accuracy(k) = getAccuracy(testPred,testGT);
        otherwise
-          disp('Por favor, asigna uno de los métodos disponibles a la variable methodLM: knn, cart, svm o gmm.');
+          disp('Por favor, asigna uno de los metodos disponibles a la variable methodLM: knn, cart, svm o gmm.');
     end
 end
 accuracy_mean = mean(accuracy);
