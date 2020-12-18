@@ -1,19 +1,29 @@
 %Definicion variables
-path = '../Ficheros/Categorias';
-methodLM = 'knn';
+path = '/Users/Sofi/Documents/Barcelona/Cuarto AÃ±o/Clases/Procesamiento Digital del Audio y del Habla/PDAP_P1/Ficheros/Categorias';
+prompt = 'Por favor, escriba el mÃ©todo con el que quiere hacer las pruebas';
+methodLM = strcmp(prompt,'s');
 knn_K = 10;
+gmm_N = 2;
 percentOfDataSet = 0.05;
-%Paso 1: obtenemos el audiodatastore
+%Obtenemos el audioDatastore
 ads = audioDatastore(path,'IncludeSubfolders',true,'FileExtensions','.wav', 'LabelSource','foldernames');
 %Dividimos los datos en el procentaje especificado
 [ads1,ads2] = splitEachLabel(ads,percentOfDataSet);
 
+%1- Segmentar la base de datos entera
+%Los features y labels son los que contienen los arrays de atributos y vectores de categorias de las 4 particiones
+%de datos respectivamente
 [features,labels] = extractFeaturesLabels(ads1);
 okPositions = cell(1,4);
 koPositions = cell(1,4);
 accuracy = zeros(4,1);
 nTramas = size(features{1},1) / size(labels{1},1);
 for k = 1:4
+   %2- Calcular dos matrices learn y test que contengan
+        %Atributos de todas las tramas de todos los audios (learnDB, testDB)
+        %vectores categoricos (learnGT, testGT) MEDIANTE CONCATENACION y
+        %REPL. ETIQUETAS (es decir, todas las labels de TODAS LAS TRAMAS, no eliminar las
+        %repetidas)
         %----------------------------------------TEST----------------------------------------------%
         testDB = [];
         testGT = [];
@@ -46,8 +56,7 @@ for k = 1:4
             end 
         end
         learnGT = learnGT.';
-        
-    %3- Entrenamiento con un clasificador
+    %3- Entrenar con un clasificador
     switch methodLM
        case 'knn'
           testPred = KNN(learnDB,learnGT,testDB,knn_K);
@@ -62,40 +71,7 @@ for k = 1:4
           testPred = GMM(learnDB,learnGT,testDB,gmm_N);
           accuracy(k) = getAccuracy(testPred,testGT);
        otherwise
-          disp('Por favor, asigna uno de los métodos disponibles a la variable methodLM: knn, cart, svm o gmm.');
+          disp('Por favor, asigna uno de los metodos disponibles a la variable methodLM: knn, cart, svm o gmm.');
     end
 end
 accuracy_mean = mean(accuracy);
-
-
-function [features,labels] = extractFeaturesLabels(ads)
-    %Esta función se encarga de dividir la información del ads en 4 partes,
-    %obteniendo los cell arrays y los vectores de categories de cada parte, y
-    %creando el array features y labels con estos datos, respectivamente.
-    [ads1, ads2, ads3, ads4] = splitEachLabel(ads,0.25,0.25,0.25);
-    adsSplit = {ads1, ads2, ads3, ads4};
-    features = cell(1,4);
-    labels = cell(1,4);
-    aFE = audioFE();
-    for i = 1:4
-        ads = adsSplit{i};
-        adsTall = tall(ads);
-        featuresTall = cellfun(@(x)extract(aFE,x),adsTall, "UniformOutput", false);
-        features{i} = cell2mat(gather(featuresTall));
-        
-        labels{i} = ads.Labels;
-    end
-end
-
-function aFE = audioFE ()
-    %Usada para definir los atributos que analizaremos de los audios
-    fs = 44100; 
-    aFE = audioFeatureExtractor(...
-    "SampleRate",fs, ...
-    "Window",hamming(round(0.6*fs),"periodic"), ...
-    "OverlapLength",round(0.5*fs), ...
-    "melSpectrum",true,...
-    "mfcc",true, ...
-    "pitch",true, ...
-    "spectralCentroid",true);
-end
