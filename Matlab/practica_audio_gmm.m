@@ -3,7 +3,7 @@ path = '../Ficheros/Categorias';
 methodLM = 'gmm';
 knn_K = 10;
 gmm_N = 15;
-percentOfDataSet = 0.05;
+percentOfDataSet = 0.5;
 %Paso 1: obtenemos el audiodatastore
 ads = audioDatastore(path,'IncludeSubfolders',true,'FileExtensions','.wav', 'LabelSource','foldernames');
 %Dividimos los datos en el procentaje especificado

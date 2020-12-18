@@ -27,6 +27,5 @@ for n = 1:size(testDB)
     categoria = categories(indice_categoria,1);
     ypred = [ypred; categoria];
 end
-%disp('GMM-> maxima probabilidad ', ypred);
 end
 
