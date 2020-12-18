@@ -2,7 +2,7 @@ function ypred = GMM(learnDB, learnGT, testDB, k)
 %Esta funci?n aplica el clasificador GMM.
 %Para cada categoria se crea un modelo gmmModel
 categories = unique(learnGT);
-numCategories = size(categories);
+numCategories = size(categories,1);
 gmmModel = cell(1, length(numCategories));
 gmmPDF = zeros((size(testDB,1)), length(numCategories));
 ypred = [];

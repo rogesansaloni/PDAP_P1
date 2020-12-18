@@ -12,7 +12,7 @@ ads = audioDatastore(path,'IncludeSubfolders',true,'FileExtensions','.wav', 'Lab
 %1- Segmentar la base de datos entera
 %Los features y labels son los que contienen los arrays de atributos y vectores de categorias de las 4 particiones
 %de datos respectivamente
-[features,labels] = extractFeaturesLabels(ads1);
+%[features,labels] = extractFeaturesLabels(ads1);
 okPositions = cell(1,4);
 koPositions = cell(1,4);
 accuracy = zeros(4,1);
@@ -74,7 +74,18 @@ for k = 1:4
     end
 end
 accuracy_mean = mean(accuracy);
-confusionMatrix = confusionMatrix(testGT, testPred);
+
+%Calculo de la matriz de confusión
+categories = unique(testGT);
+numCategories = size(categories,1);
+matrizConfusion = zeros(numCategories);
+for i = 1:size(testGT)
+    name_category_real = testGT(i);
+    name_category_predict = testPred(i);
+    position_real = find(categories == name_category_real);
+    position_predict = find(categories == name_category_predict);
+    matrizConfusion(position_real, position_predict) = matrizConfusion(position_real, position_predict) + 1;
+end
 
 function [features,labels] = extractFeaturesLabels(ads)
     %Esta funcion se encarga de dividir la informacion del ads en 4 partes,
